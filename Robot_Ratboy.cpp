@@ -31,7 +31,7 @@ private:
     // Helper function to add an obstacle to the list if it's not already there
     void add_obstacle(const RadarObj& obj) 
     {
-        if (obj.m_type == 'M' || obj.m_type == 'P' || obj.m_type == 'F' && 
+        if ((obj.m_type == 'M' || obj.m_type == 'P' || obj.m_type == 'F') && 
             !is_obstacle(obj.m_row, obj.m_col)) 
         {
             known_obstacles.push_back(obj);

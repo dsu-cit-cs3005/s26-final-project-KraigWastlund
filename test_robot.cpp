@@ -3,9 +3,28 @@
 #include <vector>
 #include <dlfcn.h>
 #include <algorithm>
+#include <cctype>
+
+namespace {
+bool is_valid_robot_filename(const std::string& filename)
+{
+    if (filename.size() <= 4 || filename.substr(filename.size() - 4) != ".cpp") {
+        return false;
+    }
+
+    // Keep this narrow to avoid shell injection in the compile command.
+    for (const unsigned char ch : filename) {
+        if (!(std::isalnum(ch) || ch == '_' || ch == '-' || ch == '.')) {
+            return false;
+        }
+    }
+    return true;
+}
+} // namespace
 
 RobotBase* load_robot(const std::string& shared_lib, void* &handle) 
 {
+    handle = nullptr;
     std::cout << "Testing robot from " << shared_lib << "...\n";
 
     // Dynamically load the shared library
@@ -23,6 +42,7 @@ RobotBase* load_robot(const std::string& shared_lib, void* &handle)
     {
         std::cerr << "Failed to find create_robot in " << shared_lib << ": " << dlerror() << '\n';
         dlclose(handle);
+        handle = nullptr;
         return nullptr;
     }
 
@@ -33,6 +53,7 @@ RobotBase* load_robot(const std::string& shared_lib, void* &handle)
     {
         std::cerr << "Failed to create robot instance from " << shared_lib << '\n';
         dlclose(handle);
+        handle = nullptr;
         return nullptr;
     }
 
@@ -49,7 +70,7 @@ void test_robot_behavior(RobotBase* robot)
 
     // Print robot stats
     std::cout << "Robot Stats:" << std::endl;
-    robot->print_stats();
+    std::cout << robot->print_stats() << '\n';
 
     int inactive_turns = 0;
 
@@ -92,39 +113,41 @@ void test_robot_behavior(RobotBase* robot)
             std::cout << "No shooting this turn.\n";
         }
 
-        // Simulate movement
-        int move_direction = 0, move_distance = 0;
-        robot->get_move_direction(move_direction, move_distance);
+        // Simulate movement only when no shot is taken (one action per turn).
+        if (!took_action) {
+            int move_direction = 0, move_distance = 0;
+            robot->get_move_direction(move_direction, move_distance);
 
-        if (move_direction != 0 && move_distance != 0) 
-        {
-            // Predefined directional increments for movement (1-8, clock directions) come from RobotBase
-            int delta_row = directions[move_direction].first;
-            int delta_col = directions[move_direction].second;
+            if (move_direction != 0 && move_distance != 0) 
+            {
+                // Predefined directional increments for movement (1-8, clock directions) come from RobotBase
+                int delta_row = directions[move_direction].first;
+                int delta_col = directions[move_direction].second;
 
-            // Calculate new position
-            int current_row, current_col;
-            robot->get_current_location(current_row, current_col);
-            int target_row = std::clamp(current_row + delta_row * move_distance, 0, 19);
-            int target_col = std::clamp(current_col + delta_col * move_distance, 0, 19);
+                // Calculate new position
+                int current_row, current_col;
+                robot->get_current_location(current_row, current_col);
+                int target_row = std::clamp(current_row + delta_row * move_distance, 0, 19);
+                int target_col = std::clamp(current_col + delta_col * move_distance, 0, 19);
 
-            // Move the robot
-            robot->move_to(target_row, target_col);
+                // Move the robot
+                robot->move_to(target_row, target_col);
 
-            std::cout << "Robot moves to (" << target_row << ", " << target_col << ").\n";
+                std::cout << "Robot moves to (" << target_row << ", " << target_col << ").\n";
 
-            // Verify the movement
-            int verify_row, verify_col;
-            robot->get_current_location(verify_row, verify_col);
-            if (verify_row == target_row && verify_col == target_col) {
-                std::cout << "Movement verified!\n";
+                // Verify the movement
+                int verify_row, verify_col;
+                robot->get_current_location(verify_row, verify_col);
+                if (verify_row == target_row && verify_col == target_col) {
+                    std::cout << "Movement verified!\n";
+                } else {
+                    std::cerr << "Error: Robot did not move to the expected location!\n";
+                }
+
+                took_action = true;
             } else {
-                std::cerr << "Error: Robot did not move to the expected location!\n";
+                std::cout << "Robot chooses not to move.\n";
             }
-
-            took_action = true;
-        } else {
-            std::cout << "Robot chooses not to move.\n";
         }
 
         // Check for inactivity
@@ -152,6 +175,10 @@ int main(int argc, char* argv[])
     }
 
     const std::string robot_file = argv[1];
+    if (!is_valid_robot_filename(robot_file)) {
+        std::cerr << "Invalid robot filename. Use a local filename like Robot_MyBot.cpp\n";
+        return 1;
+    }
     const std::string shared_lib = "lib" + robot_file.substr(0, robot_file.find(".cpp")) + ".so";
 
     // Compile the robot into a shared library -fPIC is Position Independant Code - look it up!
@@ -166,15 +193,21 @@ int main(int argc, char* argv[])
 
     std::cout << "Success!" << std::endl;
 
-    RobotBase *robot;
-    void *handle;
+    RobotBase *robot = nullptr;
+    void *handle = nullptr;
 
     robot = load_robot(shared_lib, handle);
+    if (!robot) {
+        std::cerr << "Unable to load robot from " << shared_lib << '\n';
+        return 1;
+    }
     test_robot_behavior(robot);
 
     // Cleanup
     delete robot;
-    dlclose(handle);
+    if (handle) {
+        dlclose(handle);
+    }
 
     std::cout << "Robot testing complete.\n";
 
