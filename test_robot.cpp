@@ -4,8 +4,11 @@
 #include <dlfcn.h>
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 
 namespace {
+constexpr std::size_t kMaxRobotSummaryChars = 50;
+
 bool is_valid_robot_filename(const std::string& filename)
 {
     if (filename.size() <= 4 || filename.substr(filename.size() - 4) != ".cpp") {
@@ -24,6 +27,8 @@ bool is_valid_robot_filename(const std::string& filename)
 
 RobotBase* load_robot(const std::string& shared_lib, void* &handle) 
 {
+    using RobotSummaryFn = const char* (*)();
+
     handle = nullptr;
     std::cout << "Testing robot from " << shared_lib << "...\n";
 
@@ -45,6 +50,33 @@ RobotBase* load_robot(const std::string& shared_lib, void* &handle)
         handle = nullptr;
         return nullptr;
     }
+
+    RobotSummaryFn robot_summary = reinterpret_cast<RobotSummaryFn>(dlsym(handle, "robot_summary"));
+    if (!robot_summary)
+    {
+        std::cerr << "Failed to find required robot_summary in " << shared_lib << ": " << dlerror() << '\n';
+        dlclose(handle);
+        handle = nullptr;
+        return nullptr;
+    }
+    const char* summary = robot_summary();
+    if (!summary)
+    {
+        std::cerr << "robot_summary returned null for " << shared_lib << '\n';
+        dlclose(handle);
+        handle = nullptr;
+        return nullptr;
+    }
+    const std::size_t summary_len = std::strlen(summary);
+    if (summary_len == 0 || summary_len > kMaxRobotSummaryChars)
+    {
+        std::cerr << "Invalid robot_summary length (" << summary_len << ") for " << shared_lib
+                  << ". Required: 1-" << kMaxRobotSummaryChars << " chars.\n";
+        dlclose(handle);
+        handle = nullptr;
+        return nullptr;
+    }
+    std::cout << "Robot summary: " << summary << '\n';
 
     // Instantiate the robot - it will need to be deleted later. This actually calls the function that exists
     // in the ROBOT code! Cool huh! It's in the bottom of the Robot where it says extern "C"

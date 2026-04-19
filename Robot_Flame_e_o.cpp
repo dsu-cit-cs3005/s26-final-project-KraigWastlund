@@ -177,3 +177,8 @@ extern "C" RobotBase* create_robot()
 {
     return new Robot_Flame_e_o();
 }
+
+extern "C" const char* robot_summary()
+{
+    return "Scans in cycles, closes in, burns nearby threats.";
+}

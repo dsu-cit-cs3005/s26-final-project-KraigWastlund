@@ -140,3 +140,8 @@ extern "C" RobotBase* create_robot()
 {
     return new Robot_Ratboy();
 }
+
+extern "C" const char* robot_summary()
+{
+    return "Hugs left wall, railguns nearest target.";
+}
