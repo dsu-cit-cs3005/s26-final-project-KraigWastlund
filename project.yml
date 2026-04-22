@@ -3,6 +3,20 @@ options:
   minimumXcodeGenVersion: 2.30.0
   deploymentTarget:
     macOS: '13.0'
+fileGroups:
+  - .gitignore
+  - Makefile
+  - README.md
+  - RadarObj.h
+  - RobotBase.h
+  - RobotBase.cpp
+  - Robot_Flame_e_o.cpp
+  - Robot_Ratboy.cpp
+  - test_robot.cpp
+  - RobotWarz_spec.md
+  - Arena-to-robot-sequence.drawio
+  - RobotWarzDesign.drawio
+  - RobotWarzFlow.drawio
 settings:
   base:
     CLANG_CXX_LANGUAGE_STANDARD: gnu++20
