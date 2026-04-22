@@ -17,14 +17,18 @@
 		278806078EBE99E8FAA9B8AB /* Robot_Ratboy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Robot_Ratboy.cpp; sourceTree = "<group>"; };
 		487959DAC11F4CE7D1BF3E3C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5436AD48ADB1819C7D2616AC /* RobotBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RobotBase.cpp; sourceTree = "<group>"; };
-		586DB0814154344E9A217D74 /* test_robot */ = {isa = PBXFileReference; includeInIndex = 0; path = test_robot; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DA9C2AFC151D151EB10B1E1 /* .gitignore */ = {isa = PBXFileReference; path = .gitignore; sourceTree = "<group>"; };
-		5FC59047016961AD973D9F63 /* RobotWarzDesign.drawio */ = {isa = PBXFileReference; path = RobotWarzDesign.drawio; sourceTree = "<group>"; };
-		67092778475AD5AB5FAAE0B0 /* Arena-to-robot-sequence.drawio */ = {isa = PBXFileReference; path = "Arena-to-robot-sequence.drawio"; sourceTree = "<group>"; };
+		586DB0814154344E9A217D74 /* test_robot */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = text; path = test_robot; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DA9C2AFC151D151EB10B1E1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		5FC59047016961AD973D9F63 /* RobotWarzDesign.drawio */ = {isa = PBXFileReference; lastKnownFileType = text; path = RobotWarzDesign.drawio; sourceTree = "<group>"; };
+		64549C852F987CCD0097E362 /* Arena.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Arena.h; sourceTree = "<group>"; };
+		64549C862F987CD40097E362 /* Arena.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Arena.cpp; sourceTree = "<group>"; };
+		64549C872F987CE50097E362 /* Robot_Kraig.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Robot_Kraig.cpp; sourceTree = "<group>"; };
+		64549C882F9884290097E362 /* RobotWarz.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotWarz.cpp; sourceTree = "<group>"; };
+		67092778475AD5AB5FAAE0B0 /* Arena-to-robot-sequence.drawio */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Arena-to-robot-sequence.drawio"; sourceTree = "<group>"; };
 		8DCF98BDAA0F9DD8111595CF /* Robot_Flame_e_o.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Robot_Flame_e_o.cpp; sourceTree = "<group>"; };
 		9E2E69C5B416A83FC8391A0F /* test_robot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test_robot.cpp; sourceTree = "<group>"; };
-		B7804A3FE720EC8F7CD48C67 /* RobotWarzFlow.drawio */ = {isa = PBXFileReference; path = RobotWarzFlow.drawio; sourceTree = "<group>"; };
-		BD776CD2F6EC509A4BE694FD /* Makefile */ = {isa = PBXFileReference; path = Makefile; sourceTree = "<group>"; };
+		B7804A3FE720EC8F7CD48C67 /* RobotWarzFlow.drawio */ = {isa = PBXFileReference; lastKnownFileType = text; path = RobotWarzFlow.drawio; sourceTree = "<group>"; };
+		BD776CD2F6EC509A4BE694FD /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		E2BC486298351C3CAE7060CC /* RobotWarz_spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = RobotWarz_spec.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,19 +45,23 @@
 			isa = PBXGroup;
 			children = (
 				5DA9C2AFC151D151EB10B1E1 /* .gitignore */,
+				64549C852F987CCD0097E362 /* Arena.h */,
+				64549C862F987CD40097E362 /* Arena.cpp */,
 				67092778475AD5AB5FAAE0B0 /* Arena-to-robot-sequence.drawio */,
 				BD776CD2F6EC509A4BE694FD /* Makefile */,
+				526B98237DB87DFFE11856A0 /* Products */,
 				1FEB7F812ADD80578EEA506E /* RadarObj.h */,
 				487959DAC11F4CE7D1BF3E3C /* README.md */,
 				8DCF98BDAA0F9DD8111595CF /* Robot_Flame_e_o.cpp */,
+				64549C872F987CE50097E362 /* Robot_Kraig.cpp */,
 				278806078EBE99E8FAA9B8AB /* Robot_Ratboy.cpp */,
-				5436AD48ADB1819C7D2616AC /* RobotBase.cpp */,
 				04251776A91018E28F5A97DF /* RobotBase.h */,
+				5436AD48ADB1819C7D2616AC /* RobotBase.cpp */,
+				64549C882F9884290097E362 /* RobotWarz.cpp */,
 				E2BC486298351C3CAE7060CC /* RobotWarz_spec.md */,
 				5FC59047016961AD973D9F63 /* RobotWarzDesign.drawio */,
 				B7804A3FE720EC8F7CD48C67 /* RobotWarzFlow.drawio */,
 				9E2E69C5B416A83FC8391A0F /* test_robot.cpp */,
-				526B98237DB87DFFE11856A0 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,8 +93,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 26A704956FB49F5CD98D29E2 /* Build configuration list for PBXProject "RobotWarzStarter" */;
 			developmentRegion = en;
@@ -124,9 +130,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)",
-				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -209,9 +213,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)",
-				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
