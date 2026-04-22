@@ -71,6 +71,24 @@ Test a robot file:
 
 The tester checks compile/load behavior, required exports, summary length, and basic turn behavior.
 
+## Xcode Setup
+
+This starter now includes an Xcode project:
+
+- `RobotWarzStarter.xcodeproj`
+- scheme: `test_robot`
+
+How to use:
+
+1. Open `RobotWarzStarter.xcodeproj` in Xcode.
+2. Select the `test_robot` scheme.
+3. Build/Run (`Cmd+B`, `Cmd+R`).
+
+Default run argument is `Robot_Ratboy.cpp`.
+
+As you build your arena, you can add your own `RobotWarz.cpp`/`Arena.cpp` files to the project
+and create a `RobotWarz` executable target in Xcode.
+
 ## Notes
 
 - Build a simple working arena first, then iterate.

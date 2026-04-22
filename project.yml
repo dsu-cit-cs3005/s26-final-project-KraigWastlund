@@ -1,0 +1,37 @@
+name: RobotWarzStarter
+options:
+  minimumXcodeGenVersion: 2.30.0
+  deploymentTarget:
+    macOS: '13.0'
+settings:
+  base:
+    CLANG_CXX_LANGUAGE_STANDARD: gnu++20
+    CLANG_CXX_LIBRARY: libc++
+    GCC_WARN_PEDANTIC: YES
+    GCC_TREAT_WARNINGS_AS_ERRORS: NO
+    WARNING_CFLAGS:
+      - -Wall
+      - -Wextra
+targets:
+  test_robot:
+    type: tool
+    platform: macOS
+    sources:
+      - path: RobotBase.cpp
+      - path: test_robot.cpp
+      - path: RobotBase.h
+      - path: RadarObj.h
+    settings:
+      base:
+        PRODUCT_NAME: test_robot
+        HEADER_SEARCH_PATHS:
+          - $(SRCROOT)
+schemes:
+  test_robot:
+    build:
+      targets:
+        test_robot: all
+    run:
+      config: Debug
+      commandLineArguments:
+        Robot_Ratboy.cpp: true

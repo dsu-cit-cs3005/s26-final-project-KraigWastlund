@@ -1,2 +1,10 @@
 *.so
 *.o
+build/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
